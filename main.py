@@ -48,7 +48,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     """Return a friendly HTTP greeting."""
-    return 'Hello World!'
+    return 'Please move on.  Nothing to see here.'
 
 @app.route('/css/<path:path>')
 def renderCSS( path ):
@@ -70,6 +70,7 @@ def trips():
                 'miles' : "{:.2f}".format(totalDistance),
             }
         ]
+        tripOut = sorted(tripOut, key=lambda x: float(x['duration']))
     return render_template('sitepage.html', trips=tripOut)
 
 
