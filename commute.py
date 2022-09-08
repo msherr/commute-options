@@ -1,5 +1,6 @@
 import WazeRouteCalculator
 import json
+from flask import Flask
 
 
 """
@@ -39,6 +40,31 @@ Example format of a trips.json file:
 """
 
 
+# If `entrypoint` is not defined in app.yaml, App Engine will look for an app
+# called `app` in `main.py`.
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    """Return a friendly HTTP greeting."""
+    return 'Hello World!'
+
+
+@app.route('/trips')
+def trips():
+    with open("trips.json") as f:
+        trips = json.load(f)
+
+    costs = ""
+
+    for trip in trips:
+        totalTime, totalDistance = processTrip(trip)
+        tripName = trip['name']
+        costs += f'trip cost of "{tripName}" is {totalTime} minutes and {totalDistance} miles<BR>'
+    return costs
+
+
 def km2miles( km ):
     return km * 0.621371
 
@@ -58,6 +84,8 @@ def processTrip( trip ):
 
 
 def main():
+
+    app.run(host='127.0.0.1', port=8080, debug=True)
 
     with open("trips.json") as f:
         trips = json.load(f)
