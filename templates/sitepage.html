@@ -28,8 +28,8 @@
   <section class="about" id="about">
     <h2 class="hidden">About</h2>
 	{% for trip in trips %}
-	  <p class="text_column"><b>{{ trip.name }}</b><br/>
-		  {{ trip.duration }} minutes ({{ trip.miles }} miles)
+	  <p class="text_column"><b>Trip option: {{ trip.name }}</b><br/>
+		  {{ trip.duration }} minutes ({{ trip.miles }} miles)</p>
   {% endfor %}
   </section>
   
