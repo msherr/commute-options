@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Light Theme</title>
+<title>CommuteOptions</title>
 <link href="css/singlePageTemplate.css" rel="stylesheet" type="text/css">
 <!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
 <script>var __adobewebfontsappname__="dreamweaver"</script>
@@ -27,13 +27,10 @@
   <!-- About Section -->
   <section class="about" id="about">
     <h2 class="hidden">About</h2>
-	<%
-	for trip in trips:	 
-	  %>
-	  <p class="text_column"><b><%= trip.name ></b>
-		  <%= trip.duration %> minutes (<%= trip.miles %> miles)
-      <%
-	%>
+	{% for trip in trips %}
+	  <p class="text_column"><b>{{ trip.name }}</b><br/>
+		  {{ trip.duration }} minutes ({{ trip.miles }} miles)
+  {% endfor %}
   </section>
   
 

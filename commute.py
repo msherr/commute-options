@@ -1,6 +1,6 @@
 import WazeRouteCalculator
 import json
-from flask import Flask
+from flask import Flask, render_template, send_from_directory
 
 
 """
@@ -50,19 +50,27 @@ def hello():
     """Return a friendly HTTP greeting."""
     return 'Hello World!'
 
+@app.route('/css/<path:path>')
+def renderCSS( path ):
+    return send_from_directory('static',path)
 
 @app.route('/trips')
 def trips():
     with open("trips.json") as f:
         trips = json.load(f)
 
-    costs = ""
-
+    tripOut = []
     for trip in trips:
         totalTime, totalDistance = processTrip(trip)
         tripName = trip['name']
-        costs += f'trip cost of "{tripName}" is {totalTime} minutes and {totalDistance} miles<BR>'
-    return costs
+        tripOut += [
+            {
+                'name' : tripName,
+                'duration' : "{:.2f}".format(totalTime),
+                'miles' : "{:.2f}".format(totalDistance),
+            }
+        ]
+    return render_template('sitepage.html', trips=tripOut)
 
 
 def km2miles( km ):
@@ -84,16 +92,7 @@ def processTrip( trip ):
 
 
 def main():
-
     app.run(host='127.0.0.1', port=8080, debug=True)
-
-    with open("trips.json") as f:
-        trips = json.load(f)
-
-    for trip in trips:
-        totalTime, totalDistance = processTrip(trip)
-        tripName = trip['name']
-        print( f'trip cost of "{tripName}" is {totalTime} minutes and {totalDistance} miles' )
 
 
 if __name__ == "__main__":
