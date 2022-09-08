@@ -67,7 +67,7 @@ def trips():
             {
                 'name' : tripName,
                 'duration' : "{:.2f}".format(totalTime),
-                'miles' : "{:.2f}".format(totalDistance),
+                'miles' : "{:.2f}".format(km2miles(totalDistance)),
             }
         ]
         tripOut = sorted(tripOut, key=lambda x: float(x['duration']))
@@ -86,7 +86,6 @@ def processTrip( trip ):
         toAddress = leg['to']
         route = WazeRouteCalculator.WazeRouteCalculator(fromAddress, toAddress, region)
         routeTime, routeDistance = route.calc_route_info()
-        # print( f'trip leg costs {routeTime} minutes and {routeDistance} miles')
         totalTime += routeTime
         totalDistance += routeDistance
     return totalTime, totalDistance
